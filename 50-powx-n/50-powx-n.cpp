@@ -57,7 +57,6 @@ public:
         int h = n / 2;
         int r = n - h * 2;
         
-        */
         double result = pow(x, h);
         result *= result;
         if (r == 1)
