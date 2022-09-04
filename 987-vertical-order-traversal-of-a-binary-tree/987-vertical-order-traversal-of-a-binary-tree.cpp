@@ -44,3 +44,50 @@ public:
         return ans;
     }
 };
+
+/*
+class Solution {
+public:
+    
+    void traverse(map<int, map<int, vector<int>>>& mp, int level, int dist, TreeNode* root)
+    {
+        mp[dist][level].push_back(root->val);
+        
+        if(root->left)
+        {
+            traverse(mp, level+1, dist-1, root->left);
+        }
+        if(root->right)
+        {
+            traverse(mp, level+1, dist+1, root->right);
+        }
+        
+    }
+    
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        map<int, map<int, vector<int>>> mp;
+        map<int, map<int, vector<int>>>::iterator mit;
+        map<int, vector<int>>::iterator it;
+        vector<vector<int>> res;
+        
+        traverse(mp, 0, 0, root);
+      
+        for (mit = mp.begin(); mit != mp.end(); mit++)
+        {
+            vector<int> tmp;
+            for(it = (mit->second).begin(); it != (mit->second).end(); it++)
+            {
+                sort((it->second).begin(), (it->second).end());
+                for (auto i: it->second)
+                {
+                    tmp.push_back(i);
+                }
+            }
+            res.push_back(tmp);
+        }
+        
+        return res;
+        
+    }
+};
+*/
