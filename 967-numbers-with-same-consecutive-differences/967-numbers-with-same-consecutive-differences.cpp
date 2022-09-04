@@ -1,14 +1,19 @@
-class Solution {
+class Solution 
+{
 public:
     int N, K;
     vector<int> ans;
     
-    void backtrack(int cur){
+    void backtrack(int cur)
+    {
         int digit = (cur == 0) ? 1 : log10(cur)+1;
         
-        if(digit == N){
+        if(digit == N)
+        {
             ans.push_back(cur);
-        }else{
+        }
+        else
+        {
             int last = cur%10;
             
             if(last-K >= ((cur == 0) ? 1 : 0)) backtrack(cur*10 + last-K);
@@ -17,7 +22,8 @@ public:
         }
     }
     
-    vector<int> numsSameConsecDiff(int N, int K) {
+    vector<int> numsSameConsecDiff(int N, int K) 
+    {
         this->N = N;
         this->K = K;
         
