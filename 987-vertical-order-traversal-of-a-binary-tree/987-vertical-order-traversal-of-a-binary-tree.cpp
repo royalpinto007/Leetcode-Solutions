@@ -9,12 +9,14 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
+class Solution 
+{
 public:
     //(x, y) -> values
     map<int, map<int, multiset<int>>> coord2values;
     
-    void dfs(TreeNode* node, int x, int y){
+    void dfs(TreeNode* node, int x, int y)
+    {
         if(node == nullptr) return;
         
         coord2values[x][y].insert(node->val);
@@ -23,14 +25,17 @@ public:
         dfs(node->right, x+1, y+1);
     }
     
-    vector<vector<int>> verticalTraversal(TreeNode* root) {
+    vector<vector<int>> verticalTraversal(TreeNode* root) 
+    {
         dfs(root, 0, 0);
         
         vector<vector<int>> ans;
         
-        for(auto itx = coord2values.begin(); itx != coord2values.end(); ++itx){
+        for(auto itx = coord2values.begin(); itx != coord2values.end(); ++itx)
+        {
             vector<int> line;
-            for(auto ity = itx->second.begin(); ity != itx->second.end(); ++ity){
+            for(auto ity = itx->second.begin(); ity != itx->second.end(); ++ity)
+            {
                 // cout << "(" << itx->first << ", " << ity->first << "): ";
                 // for(auto itn = ity->second.begin(); itn != ity->second.end(); ++itn){
                 //     cout << *itn << " ";
