@@ -23,6 +23,7 @@ public:
     vector<vector<int>> levelOrder(Node* root) 
     {
         vector<vector<int>> res;
+        
         if(root==NULL) return res;
         
         queue<Node*> q;
