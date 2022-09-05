@@ -37,6 +37,7 @@ public:
             {
                 Node* tmp=q.front();q.pop();
                 cur.push_back(tmp->val);
+                
                 for(Node* child:tmp->children)
                     if(child) q.push(child);
             }
