@@ -9,30 +9,53 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
 class Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root) {
         vector<int> ans;
         stack<TreeNode*> stk;
-        TreeNode* cur;
-        
-        stk.push(root);
-        
-        while(!stk.empty()){
-            cur = stk.top();
-            while(cur && cur->left){
-                stk.push(cur->left);
+        TreeNode* cur = root;
+        while(cur || !stk.empty()){
+            //if cur is nullptr, it's ok, because it will later be stk.top()
+            while(cur){
+                stk.push(cur);
                 cur = cur->left;
             }
             cur = stk.top(); stk.pop();
-            if(cur) ans.push_back(cur->val);
-            if(stk.size() > 0) stk.top()->left = nullptr;
-            if(cur && cur->right) stk.push(cur->right);
+            ans.push_back(cur->val);
+            //it's fine if cur->right is nullptr
+            cur = cur->right;
         }
         
         return ans;
     }
 };
+
+// class Solution {
+// public:
+//     vector<int> inorderTraversal(TreeNode* root) {
+//         vector<int> ans;
+//         stack<TreeNode*> stk;
+//         TreeNode* cur;
+        
+//         stk.push(root);
+        
+//         while(!stk.empty()){
+//             cur = stk.top();
+//             while(cur && cur->left){
+//                 stk.push(cur->left);
+//                 cur = cur->left;
+//             }
+//             cur = stk.top(); stk.pop();
+//             if(cur) ans.push_back(cur->val);
+//             if(stk.size() > 0) stk.top()->left = nullptr;
+//             if(cur && cur->right) stk.push(cur->right);
+//         }
+        
+//         return ans;
+//     }
+// };
 // class Solution {
 // public:
 //     vector<int> inorderTraversal(TreeNode* root) {
