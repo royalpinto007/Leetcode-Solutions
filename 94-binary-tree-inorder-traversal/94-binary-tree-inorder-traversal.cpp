@@ -12,37 +12,61 @@
 class Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root) {
-        stack<TreeNode*> stk;
-        TreeNode* cur = root;
         vector<int> ans;
+        stack<TreeNode*> stk;
+        TreeNode* cur;
         
-        stk.push(cur);
+        stk.push(root);
         
-        do{
+        while(!stk.empty()){
             cur = stk.top();
-            
-            //go to its leftmost child
-            TreeNode* tmp = cur ? cur->left : NULL;
-            while(tmp){
-                stk.push(tmp);
-                tmp = tmp->left;
+            while(cur && cur->left){
+                stk.push(cur->left);
+                cur = cur->left;
             }
-            
-            //if it has left child, process leftmost child first
             cur = stk.top(); stk.pop();
             if(cur) ans.push_back(cur->val);
-            
-            //cut current node and its parent, 
-            //so current node won't be traversed again
-            if(stk.size() > 0) stk.top()->left = NULL;
-            
-            //deal with right child
+            if(stk.size() > 0) stk.top()->left = nullptr;
             if(cur && cur->right) stk.push(cur->right);
-        }while(!stk.empty());
+        }
         
         return ans;
     }
 };
+// class Solution {
+// public:
+//     vector<int> inorderTraversal(TreeNode* root) {
+//         stack<TreeNode*> stk;
+//         TreeNode* cur = root;
+//         vector<int> ans;
+        
+//         stk.push(cur);
+        
+//         do{
+//             cur = stk.top();
+            
+//             //go to its leftmost child
+//             TreeNode* tmp = cur ? cur->left : NULL;
+//             while(tmp){
+//                 stk.push(tmp);
+//                 tmp = tmp->left;
+//             }
+            
+//             //if it has left child, process leftmost child first
+//             cur = stk.top(); stk.pop();
+//             if(cur) ans.push_back(cur->val);
+            
+//             //cut current node and its parent, 
+//             //so current node won't be traversed again
+//             if(stk.size() > 0) stk.top()->left = NULL;
+            
+//             //deal with right child
+//             if(cur && cur->right) stk.push(cur->right);
+//         }while(!stk.empty());
+        
+//         return ans;
+//     }
+// };
 // class Solution {
 // public:
 //     vector<int> ans;
