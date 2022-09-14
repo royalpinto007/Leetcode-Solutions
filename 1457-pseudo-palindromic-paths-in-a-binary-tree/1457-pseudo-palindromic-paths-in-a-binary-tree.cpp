@@ -27,3 +27,22 @@ public:
         return result;
     }
 };
+
+/*
+class Solution {
+public:
+    int pseudoPalindromicPaths (TreeNode* root) {
+        return dfs(root, 0);
+    }
+
+private:
+    int dfs(TreeNode *node, int count) {
+        if (!node) {
+            return 0;
+        }
+        count ^= 1 << node->val;
+        return int(!node->left && !node->right && (count & (count - 1)) == 0) +
+               dfs(node->left, count) + dfs(node->right, count);
+    }
+};
+*/
