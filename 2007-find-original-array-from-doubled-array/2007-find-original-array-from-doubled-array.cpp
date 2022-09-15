@@ -5,7 +5,8 @@ public:
     {
         if (size(changed) % 2) 
         {
-            return {};
+            return {
+            };
         }
         unordered_map<int, int> cnts;
         for (const auto& x : changed) 
