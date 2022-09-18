@@ -1,28 +1,66 @@
 class Solution {
 public:
     int trap(vector<int>& height) {
-        int N = height.size();
-        if(N == 0) return 0;
-        int ans = 0;
-        
-        vector<int> leftMax(N), rightMax(N);
-        leftMax[0] = height[0];
-        for(int i = 1; i < N; i++){
-            leftMax[i] = max(leftMax[i-1], height[i]);
+        int ans = 0, cur = 0;
+        stack<int> stk;
+        for(int cur = 0; cur < height.size(); cur++){
+            // cout << cur << endl;
+            // if(!stk.empty()){
+            //     cout << "stack: ";
+            //     vector<int> tmp(&stk.top()+1-stk.size(), &stk.top()+1);
+            //     for(int i = 0; i < tmp.size(); i++){
+            //         cout << tmp[i] << " ";
+            //     }
+            //     cout << endl;
+            // }
+            while(!stk.empty() && height[cur] > height[stk.top()]){
+                int top = stk.top(); stk.pop();
+                // cout << "pop: " << top << endl;
+                if(stk.empty()){
+                    break;
+                }
+                //top is bounded by previous bar in the stack and current bar   
+                int dist = cur - stk.top() - 1;
+                //the left and right walls are : stk.top(), cur
+                int bounded_height = min(height[stk.top()], height[cur]) - height[top];
+                ans += dist * bounded_height;
+                // cout << "[" << stk.top() << ", " << cur << "] " << ans << endl;
+            }
+            //the current bar is bounded by previous bar in the stack
+            stk.push(cur);
         }
-        
-        rightMax[N-1] = height[N-1];
-        for(int i = N-2; i >= 0; i--){
-            rightMax[i] = max(rightMax[i+1], height[i]);
-        }
-        
-        for(int i = 1; i < N-1; i++){
-            ans += min(leftMax[i], rightMax[i]) - height[i];
-        }
-        
         return ans;
     }
 };
+
+
+// class Solution {
+// public:
+//     int trap(vector<int>& height) {
+//         int N = height.size();
+//         if(N == 0) return 0;
+//         int ans = 0;
+        
+//         vector<int> leftMax(N), rightMax(N);
+//         leftMax[0] = height[0];
+//         for(int i = 1; i < N; i++){
+//             leftMax[i] = max(leftMax[i-1], height[i]);
+//         }
+        
+//         rightMax[N-1] = height[N-1];
+//         for(int i = N-2; i >= 0; i--){
+//             rightMax[i] = max(rightMax[i+1], height[i]);
+//         }
+        
+//         for(int i = 1; i < N-1; i++){
+//             ans += min(leftMax[i], rightMax[i]) - height[i];
+//         }
+        
+//         return ans;
+//     }
+// };
+
+
 
 // class Solution {
 // public:
