@@ -1,4 +1,5 @@
-class Solution {
+class Solution 
+{
 public:
     vector<int> sumEvenAfterQueries(vector<int>& A, vector<vector<int>>& queries) {
         auto total = accumulate(A.cbegin(), A.cend(), 0,
