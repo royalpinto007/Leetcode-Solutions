@@ -1,8 +1,8 @@
 class MedianFinder {
 public:
-    //AVL tree
     multiset<int> mset;
-    multiset<int>::iterator lo, hi;
+    //mid points to the lower median if mset have even elements
+    multiset<int>::iterator mid;
     
     /** initialize your data structure here. */
     MedianFinder() {
@@ -11,77 +11,126 @@ public:
     
     void addNum(int num) {
         int n = mset.size();
-        multiset<int>::iterator it = mset.insert(num);
+        mset.insert(num);
         
-        if(!n){
-            //originally empty
-            lo = hi = it;
-        }else if(n&1){
-            //odd number of elements, lo and hi points to same location
-            if(num < *lo){
-                /*
-                [1,2,3]
-                becomes
-                [1,1,2,3]
-                */
-                --lo;
-            }else if(num == *lo){
-                /*
-                In C++, if there are already elements equal to num,
-                then it insert num after such elements,
-                so larger half's size will increase
-                
-                [1,2,3]: lo and hi points to 2
-                becomes
-                [1,2,2,3]: lo points to 1st 2, hi points to 2nd 2
-                */
-                ++hi;
-            }else{
-                //num > *lo
-                ++hi;
-            }
+        if(n == 0){
+            mid = mset.begin();
+        }else if(num < *mid){
+            /*
+            [1,3,4]
+            becomes
+            [1,2,3,4]
+            
+            [1,3,4,5]
+            beocmes
+            [1,2,3,4,5]
+            */
+            mid = (n&1) ? prev(mid) : mid;
         }else{
-            //even number of elements
-            if(*lo <= num && num < *hi){
-                //note the <= and < here!!
-                /*
-                In C++, if there are already elements equal to num,
-                then it insert num after such elements
-                
-                so when num equal to *lo,
-                it will also be inserted btw the two pointers
-                */
-                lo = hi = it;
-            }else if(num < *lo){
-                /*
-                only when num < *lo(not ==),
-                num is inserted before lo
-                
-                [1,3,4,5]
-                becomes
-                [1,2,3,4,5]
-                */
-                hi = lo;
-                //lo and hi both points to old lo
-            }else{
-                /*
-                when num >= *hi,
-                num is always inserted after hi
-                
-                [1,3,4,5]
-                becomes
-                [1,3,4,5,6]
-                */
-                lo = hi;
-                //lo and hi both points to old hi
-            }
+            //num >= *mid, num is inserted after mid
+            /*
+            [1,3,4]
+            becomes
+            [1,3,4,6]
+            
+            [1,3,4,5]
+            beocmes
+            [1,3,4,5,6]
+            */
+            mid = (n&1) ? mid : next(mid);
         }
     }
     
     double findMedian() {
-        return (*lo + *hi)/2.0;
+        int n = mset.size();
+        return (n&1) ? *mid: (*mid + *(next(mid)))/2.0;
     }
 };
+
+// class MedianFinder {
+// public:
+//     //AVL tree
+//     multiset<int> mset;
+//     multiset<int>::iterator lo, hi;
+    
+//     /** initialize your data structure here. */
+//     MedianFinder() {
+        
+//     }
+    
+//     void addNum(int num) {
+//         int n = mset.size();
+//         multiset<int>::iterator it = mset.insert(num);
+        
+//         if(!n){
+//             //originally empty
+//             lo = hi = it;
+//         }else if(n&1){
+//             //odd number of elements, lo and hi points to same location
+//             if(num < *lo){
+//                 /*
+//                 [1,2,3]
+//                 becomes
+//                 [1,1,2,3]
+//                 */
+//                 --lo;
+//             }else if(num == *lo){
+//                 /*
+//                 In C++, if there are already elements equal to num,
+//                 then it insert num after such elements,
+//                 so larger half's size will increase
+                
+//                 [1,2,3]: lo and hi points to 2
+//                 becomes
+//                 [1,2,2,3]: lo points to 1st 2, hi points to 2nd 2
+//                 */
+//                 ++hi;
+//             }else{
+//                 //num > *lo
+//                 ++hi;
+//             }
+//         }else{
+//             //even number of elements
+//             if(*lo <= num && num < *hi){
+//                 //note the <= and < here!!
+//                 /*
+//                 In C++, if there are already elements equal to num,
+//                 then it insert num after such elements
+                
+//                 so when num equal to *lo,
+//                 it will also be inserted btw the two pointers
+//                 */
+//                 lo = hi = it;
+//             }else if(num < *lo){
+//                 /*
+//                 only when num < *lo(not ==),
+//                 num is inserted before lo
+                
+//                 [1,3,4,5]
+//                 becomes
+//                 [1,2,3,4,5]
+//                 */
+//                 hi = lo;
+//                 //lo and hi both points to old lo
+//             }else{
+//                 /*
+//                 when num >= *hi,
+//                 num is always inserted after hi
+                
+//                 [1,3,4,5]
+//                 becomes
+//                 [1,3,4,5,6]
+//                 */
+//                 lo = hi;
+//                 //lo and hi both points to old hi
+//             }
+//         }
+//     }
+    
+//     double findMedian() {
+//         return (*lo + *hi)/2.0;
+//     }
+// };
 
 // class MedianFinder {
 // public:
