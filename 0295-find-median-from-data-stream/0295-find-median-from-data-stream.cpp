@@ -1,9 +1,8 @@
 class MedianFinder {
 public:
-    //maxPQ: smaller half, may contain one more element than minPQ
-    //minPQ: larger half
-    priority_queue<int, vector<int>> maxPQ;
-    priority_queue<int, vector<int>, greater<int>> minPQ;
+    //AVL tree
+    multiset<int> mset;
+    multiset<int>::iterator lo, hi;
     
     /** initialize your data structure here. */
     MedianFinder() {
@@ -11,24 +10,110 @@ public:
     }
     
     void addNum(int num) {
-        maxPQ.push(num);
-        int t = maxPQ.top(); maxPQ.pop();
-        minPQ.push(t);
+        int n = mset.size();
+        multiset<int>::iterator it = mset.insert(num);
         
-        //minPQ's size must be <= maxPQ's size
-        if(minPQ.size() > maxPQ.size()){
-            t = minPQ.top(); minPQ.pop();
-            maxPQ.push(t);
+        if(!n){
+            //originally empty
+            lo = hi = it;
+        }else if(n&1){
+            //odd number of elements, lo and hi points to same location
+            if(num < *lo){
+                /*
+                [1,2,3]
+                becomes
+                [1,1,2,3]
+                */
+                --lo;
+            }else if(num == *lo){
+                /*
+                In C++, if there are already elements equal to num,
+                then it insert num after such elements,
+                so larger half's size will increase
+                
+                [1,2,3]: lo and hi points to 2
+                becomes
+                [1,2,2,3]: lo points to 1st 2, hi points to 2nd 2
+                */
+                ++hi;
+            }else{
+                //num > *lo
+                ++hi;
+            }
+        }else{
+            //even number of elements
+            if(*lo <= num && num < *hi){
+                //note the <= and < here!!
+                /*
+                In C++, if there are already elements equal to num,
+                then it insert num after such elements
+                
+                so when num equal to *lo,
+                it will also be inserted btw the two pointers
+                */
+                lo = hi = it;
+            }else if(num < *lo){
+                /*
+                only when num < *lo(not ==),
+                num is inserted before lo
+                
+                [1,3,4,5]
+                becomes
+                [1,2,3,4,5]
+                */
+                hi = lo;
+                //lo and hi both points to old lo
+            }else{
+                /*
+                when num >= *hi,
+                num is always inserted after hi
+                
+                [1,3,4,5]
+                becomes
+                [1,3,4,5,6]
+                */
+                lo = hi;
+                //lo and hi both points to old hi
+            }
         }
     }
     
     double findMedian() {
-        if(maxPQ.size() > minPQ.size()){
-            return maxPQ.top();
-        }
-        return (maxPQ.top()+minPQ.top())/2.0;
+        return (*lo + *hi)/2.0;
     }
 };
+
+// class MedianFinder {
+// public:
+//     //maxPQ: smaller half, may contain one more element than minPQ
+//     //minPQ: larger half
+//     priority_queue<int, vector<int>> maxPQ;
+//     priority_queue<int, vector<int>, greater<int>> minPQ;
+    
+//     /** initialize your data structure here. */
+//     MedianFinder() {
+        
+//     }
+    
+//     void addNum(int num) {
+//         maxPQ.push(num);
+//         int t = maxPQ.top(); maxPQ.pop();
+//         minPQ.push(t);
+        
+//         //minPQ's size must be <= maxPQ's size
+//         if(minPQ.size() > maxPQ.size()){
+//             t = minPQ.top(); minPQ.pop();
+//             maxPQ.push(t);
+//         }
+//     }
+    
+//     double findMedian() {
+//         if(maxPQ.size() > minPQ.size()){
+//             return maxPQ.top();
+//         }
+//         return (maxPQ.top()+minPQ.top())/2.0;
+//     }
+// };
 
 // class MedianFinder {
 // public:
