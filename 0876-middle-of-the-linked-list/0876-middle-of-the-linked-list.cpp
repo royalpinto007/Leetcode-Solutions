@@ -8,19 +8,35 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
-class Solution {
-public:
-    ListNode* middleNode(ListNode* head) {
-        ListNode* step1 = head;
-        ListNode* step2 = head;
+class Solution{
+    
+    public:
+    ListNode *middleNode(ListNode *head){
+        int n=0;
+        ListNode *slow, *fast;
         
-        //if list has odd length, step2 will be the last node
-        //if list has even length, step2 will be NULL
-        while(step2!=NULL && step2->next!=NULL){
-            step1 = step1->next;
-            step2 = step2->next->next;
+        while (fast!=NULL && fast->next!=NULL){
+            slow=slow->next;
+            fast=fast->next->next;
         }
         
-        return step1;
+        return slow;
     }
 };
+
+// class Solution {
+// public:
+//     ListNode* middleNode(ListNode* head) {
+//         ListNode* step1 = head;
+//         ListNode* step2 = head;
+        
+//         //if list has odd length, step2 will be the last node
+//         //if list has even length, step2 will be NULL
+//         while(step2!=NULL && step2->next!=NULL){
+//             step1 = step1->next;
+//             step2 = step2->next->next;
+//         }
+        
+//         return step1;
+//     }
+// };
