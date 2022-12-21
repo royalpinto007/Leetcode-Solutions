@@ -9,7 +9,6 @@
  * };
  */
 
-// same problem as in Coding Ninjas (kReverse)
 class Solution {
 public:
     ListNode* rotateRight(ListNode* head, int k) {
@@ -17,6 +16,7 @@ public:
         ListNode* cur=head;
         int length=0;
         
+        // base case
         if(k<=0|| head==NULL||head->next==NULL)
             return head;
 
