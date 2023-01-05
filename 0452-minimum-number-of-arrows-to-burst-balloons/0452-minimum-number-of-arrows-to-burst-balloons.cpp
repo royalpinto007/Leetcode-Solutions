@@ -2,7 +2,6 @@ class Solution {
 public:
     int findMinArrowShots(vector<vector<int>>& p) {
         
-        // 
         sort(p.begin(), p.end());
         
         // to sort it according to the lastpoint 
